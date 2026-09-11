@@ -1,6 +1,8 @@
 package com.example.masterapp;
 
 import android.content.Intent;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.net.Uri;
 import android.os.Bundle;
 import android.util.Patterns;
@@ -24,12 +26,17 @@ public class Signup_activity extends AppCompatActivity {
     EditText name, email_signup, number_signup, password_signup, confirm_password_signup;
 
     Button signup_button;
+    SQLiteDatabase db;
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_signup);
+
+        db = openOrCreateDatabase("masterapp.db", MODE_PRIVATE, null);
+        String userTable = "CREATE TABLE IF NOT EXISTS user(userid INTEGER PRIMARY KEY AUTOINCREMENT, name VARCHAR(50), email VARCHAR(30), contact VARCHAR(10), password VARCHAR(20))";
+        db.execSQL(userTable);
 
         name = findViewById(R.id.name_signup);
         email_signup = findViewById(R.id.email_signup);
@@ -93,16 +100,30 @@ public class Signup_activity extends AppCompatActivity {
                 return;
             }
 
+            else{
+                String checkUser = "SELECT * FROM user WHERE email = '"+email_text+"' OR contact = '"+number_text+"'";
+                Cursor cursor = db.rawQuery(checkUser, null);
+                if(cursor.getCount()>0){
+                    Toast.makeText(this, "User Already Exists!", Toast.LENGTH_LONG).show();
+                }
+                else{
+                    String insertUser = "INSERT INTO user VALUES(NULL, '"+name_text+"', '"+email_text+"', '"+number_text+"', '"+password_text+"')";
+                    db.execSQL(insertUser);
+
+                    Toast.makeText(this, "User Added Successfully!", Toast.LENGTH_LONG).show();
+                }
+            }
+
         });
 
-        login_signup.setOnClickListener(view -> {
-            Snackbar.make(view, "Welcome back", Snackbar.LENGTH_SHORT).setAction("Next", v -> {
-                            Intent intent = new Intent(Signup_activity.this, MainActivity.class);
-                            startActivity(intent);
-            }).show();
-//            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.google.com"));
-//            startActivity(intent);
-        });
+//        login_signup.setOnClickListener(view -> {
+//            Snackbar.make(view, "Welcome back", Snackbar.LENGTH_SHORT).setAction("Next", v -> {
+//                            Intent intent = new Intent(Signup_activity.this, MainActivity.class);
+//                            startActivity(intent);
+//            }).show();
+////            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.google.com"));
+////            startActivity(intent);
+//        });
 
     }
 }
