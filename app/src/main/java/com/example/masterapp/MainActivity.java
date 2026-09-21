@@ -1,6 +1,13 @@
 package com.example.masterapp;
 
+import android.content.SharedPreferences;
+import android.database.Cursor;
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
+import android.view.View;
+import android.widget.Button;
+import android.widget.EditText;
+import android.widget.Toast;
 
 import androidx.activity.EdgeToEdge;
 import androidx.appcompat.app.AppCompatActivity;
@@ -10,15 +17,63 @@ import androidx.core.view.WindowInsetsCompat;
 
 public class MainActivity extends AppCompatActivity {
 
+    EditText email, password;
+    Button login_button;
+    SQLiteDatabase db;
+    SharedPreferences sp;
+
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
         setContentView(R.layout.activity_main);
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-            return insets;
+
+        sp = getSharedPreferences(ConstantSp.PREF, MODE_PRIVATE);
+
+        db = openOrCreateDatabase("masterapp.db", MODE_PRIVATE, null);
+        String userTable = "CREATE TABLE IF NOT EXISTS user(userid INTEGER PRIMARY KEY AUTOINCREMENT, name VARCHAR(50), email VARCHAR(30), contact VARCHAR(10), password VARCHAR(20))";
+        db.execSQL(userTable);
+
+        email = findViewById(R.id.email);
+        password = findViewById(R.id.password);
+        login_button = findViewById(R.id.sign_in_button);
+
+        login_button.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                String email_text = email.getText().toString();
+                String password_text = password.getText().toString();
+
+                if (email_text.isEmpty()){
+                    email.setError("Enter Email");
+                    email.requestFocus();
+                    return;
+                }
+                else if (password_text.isEmpty()){
+                    password.setError("Enter Password");
+                    password.requestFocus();
+                }
+
+                else{
+                    String checkUser = "SELECT * FROM user WHERE email = '"+email_text+"' AND password = '"+password_text+"'";
+                    Cursor cursor = db.rawQuery(checkUser, null);
+                    if(cursor.getCount()>0){
+                        sp.edit().putInt(ConstantSp.USER_ID, cursor.getInt(0)).commit();
+                        sp.edit().putString(ConstantSp.USER_NAME, cursor.getString(1)).commit();
+                        sp.edit().putString(ConstantSp.USER_EMAIL, cursor.getString(2)).commit();
+                        sp.edit().putString(ConstantSp.USER_CONTACT, cursor.getString(3)).commit();
+                        sp.edit().putString(ConstantSp.USER_PASSWORD, cursor.getString(4)).commit();
+
+                        Toast.makeText(MainActivity.this, "Login Successful!", Toast.LENGTH_SHORT).show();
+                    }
+                    else{
+                        Toast.makeText(MainActivity.this, "Invalid Credentials!", Toast.LENGTH_SHORT).show();
+                    }
+                }
+            }
         });
+
+
+
+
     }
 }

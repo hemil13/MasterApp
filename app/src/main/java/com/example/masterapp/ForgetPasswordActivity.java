@@ -1,5 +1,6 @@
 package com.example.masterapp;
 
+import android.database.sqlite.SQLiteDatabase;
 import android.os.Bundle;
 import android.widget.Button;
 import android.widget.EditText;
@@ -16,12 +17,18 @@ public class ForgetPasswordActivity extends AppCompatActivity {
     //Variable
     EditText email_forget, new_password, confirm_password;
 
+    SQLiteDatabase db;
+
     Button changePassword;
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
         EdgeToEdge.enable(this);
         setContentView(R.layout.activity_forget_password);
+
+        db = openOrCreateDatabase("masterapp.db", MODE_PRIVATE, null);
+        String userTable = "CREATE TABLE IF NOT EXISTS user(userid INTEGER PRIMARY KEY AUTOINCREMENT, name VARCHAR(50), email VARCHAR(30), contact VARCHAR(10), password VARCHAR(20))";
+        db.execSQL(userTable);
 
         email_forget = findViewById(R.id.email_forget);
         new_password = findViewById(R.id.new_password_forget);
@@ -61,14 +68,13 @@ public class ForgetPasswordActivity extends AppCompatActivity {
                 return;
             }
             else {
+                String updatePassword = "UPDATE user SET password = '"+newPassword+"' WHERE email = '"+email+"'";
+                db.execSQL(updatePassword);
+
                 Toast.makeText(this, "Password Changed Successfully", Toast.LENGTH_SHORT).show();
             }
         });
 
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-            return insets;
-        });
+
     }
 }
