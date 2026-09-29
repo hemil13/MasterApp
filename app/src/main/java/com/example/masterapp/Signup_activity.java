@@ -26,7 +26,7 @@ public class Signup_activity extends AppCompatActivity {
     EditText name, email_signup, number_signup, password_signup, confirm_password_signup;
 
     Button signup_button;
-    SQLiteDatabase db;
+    SQLiteDatabase db; // room database
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -103,6 +103,8 @@ public class Signup_activity extends AppCompatActivity {
             else{
                 String checkUser = "SELECT * FROM user WHERE email = '"+email_text+"' OR contact = '"+number_text+"'";
                 Cursor cursor = db.rawQuery(checkUser, null);
+                // cursor = 1 if user exists, 0 if not
+
                 if(cursor.getCount()>0){
                     Toast.makeText(this, "User Already Exists!", Toast.LENGTH_LONG).show();
                 }
@@ -116,14 +118,14 @@ public class Signup_activity extends AppCompatActivity {
 
         });
 
-//        login_signup.setOnClickListener(view -> {
-//            Snackbar.make(view, "Welcome back", Snackbar.LENGTH_SHORT).setAction("Next", v -> {
-//                            Intent intent = new Intent(Signup_activity.this, MainActivity.class);
-//                            startActivity(intent);
-//            }).show();
-////            Intent intent = new Intent(Intent.ACTION_VIEW, Uri.parse("https://www.google.com"));
-////            startActivity(intent);
-//        });
+        login_signup.setOnClickListener(view -> {
+            Snackbar.make(view, "Welcome back", Snackbar.LENGTH_SHORT).setAction("Next", v -> {
+                            Intent intent = new Intent(Signup_activity.this, MainActivity.class);
+                            startActivity(intent);
+            }).show();
+            Intent intent = new Intent(Signup_activity.this, MainActivity.class);
+            startActivity(intent);
+        });
 
     }
 }

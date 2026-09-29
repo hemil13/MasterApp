@@ -86,6 +86,8 @@
         android:layout_marginHorizontal="20dp"
         android:padding="15dp"
         android:background="@drawable/custom_background"
+        android:visibility="gone
+"
         />
 
     <Button
