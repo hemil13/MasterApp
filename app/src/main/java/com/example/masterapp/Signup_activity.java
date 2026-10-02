@@ -123,9 +123,11 @@ public class Signup_activity extends AppCompatActivity {
                             Intent intent = new Intent(Signup_activity.this, MainActivity.class);
                             startActivity(intent);
             }).show();
-            Intent intent = new Intent(Signup_activity.this, MainActivity.class);
-            startActivity(intent);
+            onBackPressed();
         });
 
     }
 }
+
+
+
