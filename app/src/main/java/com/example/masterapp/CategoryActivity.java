@@ -7,18 +7,28 @@ import androidx.appcompat.app.AppCompatActivity;
 import androidx.core.graphics.Insets;
 import androidx.core.view.ViewCompat;
 import androidx.core.view.WindowInsetsCompat;
+import androidx.recyclerview.widget.LinearLayoutManager;
+import androidx.recyclerview.widget.RecyclerView;
 
 public class CategoryActivity extends AppCompatActivity {
+
+    RecyclerView categoryRecyclerView;
+
+    int[] idArray = {1,2,3};
+    String[] nameArrary = {"Electonics", "Clothes", "Books"};
+    int[] imageArray = {R.drawable.electronics, R.drawable.clothes, R.drawable.books};
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);
-        EdgeToEdge.enable(this);
+
         setContentView(R.layout.activity_category);
-        ViewCompat.setOnApplyWindowInsetsListener(findViewById(R.id.main), (v, insets) -> {
-            Insets systemBars = insets.getInsets(WindowInsetsCompat.Type.systemBars());
-            v.setPadding(systemBars.left, systemBars.top, systemBars.right, systemBars.bottom);
-            return insets;
-        });
+
+        categoryRecyclerView = findViewById(R.id.category_recycler);
+
+        categoryRecyclerView.setLayoutManager(new LinearLayoutManager(CategoryActivity.this));
+
+        CategoryAdapter adapter = new CategoryAdapter(CategoryActivity.this, idArray, nameArrary, imageArray);
+        categoryRecyclerView.setAdapter(adapter);
     }
 }

@@ -32,7 +32,7 @@ public class MainActivity extends AppCompatActivity {
 
         sp = getSharedPreferences(ConstantSp.PREF, MODE_PRIVATE);
 
-        db = openOrCreateDatabase("masterapp.db", MODE_PRIVATE, null);
+        db = openOrCreateDatabase(ConstantSp.DBNAME, MODE_PRIVATE, null);
         String userTable = "CREATE TABLE IF NOT EXISTS user(userid INTEGER PRIMARY KEY AUTOINCREMENT, name VARCHAR(50), email VARCHAR(30), contact VARCHAR(10), password VARCHAR(20))";
         db.execSQL(userTable);
 
@@ -61,13 +61,15 @@ public class MainActivity extends AppCompatActivity {
                     String checkUser = "SELECT * FROM user WHERE email = '"+email_text+"' AND password = '"+password_text+"'"; //email aur password same row
                     Cursor cursor = db.rawQuery(checkUser, null);
                     if(cursor.getCount()>0){
+
+                       // 1   demo    demo@gmail.com    976543210   123123
+
                         while(cursor.moveToNext()){
                             sp.edit().putString(ConstantSp.USER_ID, cursor.getString(0)).commit();
                             sp.edit().putString(ConstantSp.USER_NAME, cursor.getString(1)).commit();
                             sp.edit().putString(ConstantSp.USER_EMAIL, cursor.getString(2)).commit();
                             sp.edit().putString(ConstantSp.USER_CONTACT, cursor.getString(3)).commit();
                             sp.edit().putString(ConstantSp.USER_PASSWORD, cursor.getString(4)).commit();
-
                         }
 
                         Toast.makeText(MainActivity.this, "Login Successful!", Toast.LENGTH_SHORT).show();
@@ -98,3 +100,6 @@ public class MainActivity extends AppCompatActivity {
 
     }
 }
+
+
+
