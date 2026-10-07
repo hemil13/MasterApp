@@ -11,6 +11,8 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.recyclerview.widget.RecyclerView;
 
+import java.util.ArrayList;
+
 public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHolder> {
 
     Context context;
@@ -18,11 +20,18 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
     String[] nameArrary;
     int[] imageArray;
 
-    public CategoryAdapter(Context context, int[] idArray, String[] nameArrary, int[] imageArray) {
+    ArrayList<CategoryList> arrayList;
+
+//    public CategoryAdapter(Context context, int[] idArray, String[] nameArrary, int[] imageArray) {
+//        this.context = context;
+//        this.idArray = idArray;
+//        this.nameArrary = nameArrary;
+//        this.imageArray = imageArray;
+//    }
+
+    public CategoryAdapter(Context context, ArrayList<CategoryList> arrayList) {
         this.context = context;
-        this.idArray = idArray;
-        this.nameArrary = nameArrary;
-        this.imageArray = imageArray;
+        this.arrayList = arrayList;
     }
 
     @NonNull
@@ -44,14 +53,14 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
 
     @Override
     public void onBindViewHolder(@NonNull CategoryAdapter.ViewHolder holder, int position) {
-        holder.name.setText(nameArrary[position]);
-        holder.image.setImageResource(imageArray[position]);
+        holder.name.setText(arrayList.get(position).getName());
+        holder.image.setImageResource(arrayList.get(position).getImage());
 
     }
 
     @Override
     public int getItemCount() {
-        return idArray.length;
+        return arrayList.size();
     }
 }
 
