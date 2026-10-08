@@ -24,10 +24,10 @@
             android:exported="false" />
         <activity
             android:name=".Signup_activity"
-            android:exported="true"></activity>
+            android:exported="true" />
         <activity
             android:name=".MainActivity"
-            android:exported="true"></activity>
+            android:exported="true" />
 
         <meta-data
             android:name="preloaded_fonts"
@@ -45,6 +45,10 @@
         </activity>
         <activity
             android:name=".CategoryActivity"
+            android:exported="false"
+            android:windowSoftInputMode="adjustResize" />
+        <activity
+            android:name=".SubCategoryActivity"
             android:exported="false"
             android:windowSoftInputMode="adjustResize" />
     </application>

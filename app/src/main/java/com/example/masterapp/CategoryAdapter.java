@@ -1,6 +1,7 @@
 package com.example.masterapp;
 
 import android.content.Context;
+import android.content.Intent;
 import android.media.Image;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -55,6 +56,14 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
     public void onBindViewHolder(@NonNull CategoryAdapter.ViewHolder holder, int position) {
         holder.name.setText(arrayList.get(position).getName());
         holder.image.setImageResource(arrayList.get(position).getImage());
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                Intent intent = new Intent(context, SubCategoryActivity.class);
+                context.startActivity(intent);
+            }
+        });
 
     }
 
