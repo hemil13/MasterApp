@@ -2,6 +2,7 @@ package com.example.masterapp;
 
 import android.content.Context;
 import android.content.Intent;
+import android.content.SharedPreferences;
 import android.media.Image;
 import android.view.LayoutInflater;
 import android.view.View;
@@ -21,6 +22,8 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
     String[] nameArrary;
     int[] imageArray;
 
+    SharedPreferences sp;
+
     ArrayList<CategoryList> arrayList;
 
 //    public CategoryAdapter(Context context, int[] idArray, String[] nameArrary, int[] imageArray) {
@@ -33,6 +36,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
     public CategoryAdapter(Context context, ArrayList<CategoryList> arrayList) {
         this.context = context;
         this.arrayList = arrayList;
+        sp = context.getSharedPreferences(ConstantSp.PREF, Context.MODE_PRIVATE);
     }
 
     @NonNull
@@ -60,6 +64,7 @@ public class CategoryAdapter extends RecyclerView.Adapter<CategoryAdapter.ViewHo
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
+                sp.edit().putInt(ConstantSp.CATEGORY_ID, arrayList.get(position).getId()).commit();
                 Intent intent = new Intent(context, SubCategoryActivity.class);
                 context.startActivity(intent);
             }

@@ -8,6 +8,7 @@ public class ConstantSp {
     public static final String USER_EMAIL = "user_email";
     public static final String USER_CONTACT = "user_contact";
     public static final String USER_PASSWORD = "user_password";
+    public static final String CATEGORY_ID = "category_id";
 
 }
 
