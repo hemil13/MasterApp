@@ -3,5 +3,22 @@
     <style name="Base.Theme.MasterApp" parent="Theme.Material3.DayNight.NoActionBar">
         <!-- Customize your dark theme here. -->
         <!-- <item name="colorPrimary">@color/my_dark_primary</item> -->
+
     </style>
+
+    <style name="text_18" parent="Widget.AppCompat.TextView">
+        <item name="android:layout_width">wrap_content</item>
+        <item name="android:layout_height">wrap_content</item>
+
+        <item name="android:textColor">@color/white_light</item>
+        <item name="android:textSize">@dimen/_18sdp</item>
+    </style>
+
+    <style name="radio_15" parent="Widget.AppCompat.CompoundButton.RadioButton">
+        <item name="android:layout_width">match_parent</item>
+        <item name="android:layout_height">wrap_content</item>
+        <item name="android:textSize">@dimen/_15sdp</item>
+        <item name="buttonTint">@color/white</item>
+    </style>
+
 </resources>

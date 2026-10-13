@@ -1,6 +1,8 @@
 package com.example.masterapp;
 
 import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -16,9 +18,12 @@ import java.util.ArrayList;
 public class SubCategoryAdapter extends RecyclerView.Adapter<SubCategoryAdapter.ViewHolder> {
     Context context;
     ArrayList<SubcategoryList> arrayList;
+
+    SharedPreferences sp;
     public SubCategoryAdapter(Context context, ArrayList<SubcategoryList> arrayList) {
         this.context = context;
         this.arrayList = arrayList;
+        sp = context.getSharedPreferences(ConstantSp.PREF, Context.MODE_PRIVATE);
     }
 
     @NonNull
@@ -42,6 +47,15 @@ public class SubCategoryAdapter extends RecyclerView.Adapter<SubCategoryAdapter.
     public void onBindViewHolder(@NonNull SubCategoryAdapter.ViewHolder holder, int position) {
         holder.name.setText(arrayList.get(position).getName());
         holder.image.setImageResource(arrayList.get(position).getImage());
+
+        holder.itemView.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View view) {
+                sp.edit().putInt(ConstantSp.SUBCATEGORY_ID, arrayList.get(position).getSubId()).apply();
+                Intent intent = new Intent(context, ProductActivity.class);
+                context.startActivity(intent);
+            }
+        });
     }
 
     @Override

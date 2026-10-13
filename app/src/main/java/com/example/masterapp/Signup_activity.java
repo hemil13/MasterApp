@@ -103,16 +103,21 @@ public class Signup_activity extends AppCompatActivity {
             else{
                 String checkUser = "SELECT * FROM user WHERE email = '"+email_text+"' OR contact = '"+number_text+"'";
                 Cursor cursor = db.rawQuery(checkUser, null);
-                // cursor = 1 if user exists, 0 if not
+                // cursor > 0 -> user exists, 0 -> user not exists
 
                 if(cursor.getCount()>0){
                     Toast.makeText(this, "User Already Exists!", Toast.LENGTH_LONG).show();
+                    Intent intent = new Intent(Signup_activity.this, MainActivity.class);
+                    startActivity(intent);
                 }
                 else{
                     String insertUser = "INSERT INTO user VALUES(NULL, '"+name_text+"', '"+email_text+"', '"+number_text+"', '"+password_text+"')";
                     db.execSQL(insertUser);
 
                     Toast.makeText(this, "User Added Successfully!", Toast.LENGTH_LONG).show();
+
+                    Intent intent = new Intent (Signup_activity.this, DashboardActivity.class);
+                    startActivity(intent);
                 }
             }
 
