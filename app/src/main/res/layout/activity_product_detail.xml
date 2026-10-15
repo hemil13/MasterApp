@@ -10,7 +10,7 @@
 
     <androidx.cardview.widget.CardView
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
+        android:layout_height="match_parent"
         android:layout_margin="@dimen/_5sdp"
         app:cardCornerRadius="@dimen/_5sdp"
         app:cardElevation="@dimen/_3sdp">
@@ -32,11 +32,6 @@
                 android:layout_marginTop="@dimen/_10sdp"
                 android:orientation="vertical">
 
-                <TextView
-                    android:id="@+id/product_detail_vendor_name"
-                    style="@style/text_14"
-                    android:textColor="@color/gray_1"
-                    android:textStyle="bold" />
 
                 <TextView
                     android:id="@+id/product_detail_name"
@@ -51,14 +46,16 @@
                         style="@style/text_14" />
 
                     <TextView
-                        android:id="@+id/product_detail_price"
+                        android:id="@+id/product_detail_original_price"
                         style="@style/text_14"
                         android:layout_marginHorizontal="@dimen/_5sdp"
                         android:textColor="@color/gray_1" />
 
+
                     <TextView
-                        android:id="@+id/product_detail_discount"
+                        android:id="@+id/product_detail_desc"
                         style="@style/text_14"
+                        android:layout_marginTop="20dp"
                         android:textStyle="bold" />
 
                 </LinearLayout>
@@ -135,10 +132,6 @@
                         android:layout_height="@dimen/_20sdp"
                         android:src="@drawable/add"
                         />
-
-
-
-
 
                 </LinearLayout>
 

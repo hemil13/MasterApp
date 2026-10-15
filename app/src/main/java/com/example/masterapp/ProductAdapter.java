@@ -1,6 +1,8 @@
 package com.example.masterapp;
 
 import android.content.Context;
+import android.content.Intent;
+import android.content.SharedPreferences;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
@@ -15,10 +17,12 @@ import java.util.ArrayList;
 public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductViewHolder> {
     Context context;
     ArrayList<ProductList> arrayList;
+    SharedPreferences sp;
 
     public ProductAdapter(Context context, ArrayList<ProductList> arrayList) {
         this.context = context;
         this.arrayList = arrayList;
+        sp = context.getSharedPreferences(ConstantSp.PREF, Context.MODE_PRIVATE);
     }
 
     @NonNull
@@ -50,7 +54,15 @@ public class ProductAdapter extends RecyclerView.Adapter<ProductAdapter.ProductV
         holder.itemView.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View view) {
-                // pass
+                sp.edit().putInt(ConstantSp.PRODUCT_ID, arrayList.get(position).getProdId()).commit();
+                sp.edit().putInt(ConstantSp.PRODUCT_IMAGE, arrayList.get(position).getImage()).commit();
+                sp.edit().putString(ConstantSp.PRODUCT_NAME, arrayList.get(position).getName()).commit();
+                sp.edit().putString(ConstantSp.PRODUCT_DESC, arrayList.get(position).getProdDesc()).commit();
+                sp.edit().putInt(ConstantSp.PRODUCT_ORIGINAL_PRICE, arrayList.get(position).getOriginalPrice()).commit();
+                sp.edit().putInt(ConstantSp.PRODUCT_DISCOUNT_PRICE, arrayList.get(position).getDiscountPrice()).commit();
+
+                Intent intent = new Intent(context, ProductDetailActivity.class);
+                context.startActivity(intent);
             }
         });
 
